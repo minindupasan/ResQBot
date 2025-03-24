@@ -1,69 +1,40 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
+#include "MotorController.h"
+#include "GyroController.h"
 
-Adafruit_MPU6050 mpu;
+// Motor pin definitions
+int motorA1 = 42;  // IN1
+int motorA2 = 40;  // IN2
+int enableA = 2;  // ENA (Enable pin)
+int motorB1 = 38;  // IN3
+int motorB2 = 36;  // IN4
+int enableB = 3;  // ENB (Enable pin)
 
-float currentYaw = 0;   // Current yaw angle
-float gyroZ_offset = 0; // Offset for gyro drift
-unsigned long lastTime = 0;
-
-void calibrateGyro();
+MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB);
+GyroController gyro;
 
 void setup() {
     Serial.begin(115200);
     while (!Serial)
         delay(10); // Wait for serial port to connect
 
-    if (!mpu.begin()) {
-        Serial.println("Failed to find MPU6050 chip");
-        while (1) {
-            delay(10);
-        }
-    }
-    Serial.println("MPU6050 Found!");
-
-    // Calibrate gyroscope
-    calibrateGyro();
-    lastTime = millis();
+    gyro.initialize();  // Initialize the gyroscope
 }
 
 void loop() {
-    unsigned long currentTime = millis();
-    float dt = (currentTime - lastTime) / 1000.0; // Time difference in seconds
-    lastTime = currentTime;
+    // Get the current yaw from the gyroscope
+    float currentYaw = gyro.getYaw();
 
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
+    // Calculate the yaw error (desired yaw = 0)
+    float yawError = currentYaw;  // Assuming we want to keep yaw at 0
 
-    // Gyroscope Z-axis value in degrees per second
-    float gyroZ = g.gyro.z * 57.2958 - gyroZ_offset; // Convert rad/s to deg/s and subtract offset
-
-    // Integrate gyroscope data to get yaw angle
-    currentYaw += gyroZ * dt;
+    // Adjust motor speeds based on yaw error to maintain a straight path
+    motor.adjustSpeed(yawError);
 
     Serial.print("Yaw: ");
     Serial.print(currentYaw);
-    Serial.println("°");
+    Serial.print(" Yaw Error: ");
+    Serial.println(yawError);
 
     delay(50);
-}
-
-void calibrateGyro() {
-    Serial.println("Calibrating gyroscope...");
-    float sum = 0;
-    int n = 500;
-
-    for (int i = 0; i < n; i++) {
-        sensors_event_t a, g, temp;
-        mpu.getEvent(&a, &g, &temp);
-        sum += g.gyro.z * 57.2958; // Convert rad/s to deg/s
-        delay(5);
-    }
-
-    gyroZ_offset = sum / n;
-    Serial.print("Gyro Z Offset: ");
-    Serial.println(gyroZ_offset);
-    Serial.println("Calibration complete!");
 }
