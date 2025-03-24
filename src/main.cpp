@@ -10,7 +10,13 @@ int motorB1 = 38;  // IN3
 int motorB2 = 36;  // IN4
 int enableB = 3;  // ENB (Enable pin)
 
-MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB);
+// Define IR sensor pins
+#define IR_LEFT 50
+#define IR_RIGHT 52
+
+// Create motor controller object
+MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, IR_LEFT, IR_RIGHT);
+ 
 GyroController gyro;
 
 void setup() {
