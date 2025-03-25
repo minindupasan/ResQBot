@@ -3,6 +3,9 @@
 
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
+#include <Wire.h>
+#include <Arduino.h>
+#include <avr/wdt.h> // Required for watchdog functions
 
 class GyroController {
 public:
@@ -10,6 +13,7 @@ public:
     void initialize();
     float getYaw();
     void calibrateGyro();
+    void resetSystem();
 
 private:
     Adafruit_MPU6050 mpu;

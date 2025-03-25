@@ -37,13 +37,14 @@ void FireSuppressionSystem::activateSuppression() {
     digitalWrite(pumpRelayPin, LOW); // Turn on relay
     for(int i=0; i<180; i++) {
         nozzleServo.write(i);
-        delay(50);
+        delay(5);
     }
     for(int i=180; i>0; i--) {
         nozzleServo.write(i);
-        delay(50);
+        delay(5);
     }
     nozzleServo.write(90);
+    gyroController.resetSystem();
 }
 
 void FireSuppressionSystem::stopSuppression() {

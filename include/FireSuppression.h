@@ -1,6 +1,7 @@
 #ifndef FIRE_SUPPRESSION_H
 #define FIRE_SUPPRESSION_H
 
+#include "GyroController.h"
 #include <Arduino.h>
 #include <Servo.h>
 
@@ -18,6 +19,7 @@ public:
     void checkFire();
     void activateSuppression();
     void stopSuppression();
+    GyroController gyroController;
 
 private:
     int pumpRelayPin;

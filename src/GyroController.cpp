@@ -1,7 +1,5 @@
 #include "GyroController.h"
 #include <Wire.h>
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
 #include <Arduino.h>
 
 GyroController::GyroController() {
@@ -53,4 +51,16 @@ void GyroController::calibrateGyro() {
     Serial.print("Gyro Z Offset: ");
     Serial.println(gyroZ_offset);
     Serial.println("Calibration complete!");
+}
+
+void GyroController::resetSystem() {
+    Serial.println("System Resetting...");
+
+    // Enable Watchdog Timer for 1 second timeout
+    wdt_enable(WDTO_15MS); // 15ms timeout
+
+    // Wait for the watchdog to trigger a reset
+    while (true) {}
+
+    // Note: The board will reset before reaching this point
 }
