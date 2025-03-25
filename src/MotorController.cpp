@@ -23,19 +23,19 @@ MotorController::MotorController(int motorA1, int motorA2, int enableA, int moto
 }
 
 void MotorController::moveForward(int speed) {
-    digitalWrite(motorA1, HIGH);
-    digitalWrite(motorA2, LOW);
-    digitalWrite(motorB1, HIGH);
-    digitalWrite(motorB2, LOW);
+    digitalWrite(motorA1, LOW);
+    digitalWrite(motorA2, HIGH);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, HIGH);
     analogWrite(enableA, speed);
     analogWrite(enableB, speed);
 }
 
 void MotorController::moveBackward(int speed) {
-    digitalWrite(motorA1, LOW);
-    digitalWrite(motorA2, HIGH);
-    digitalWrite(motorB1, LOW);
-    digitalWrite(motorB2, HIGH);
+    digitalWrite(motorA1, HIGH);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, HIGH);
+    digitalWrite(motorB2, LOW);
     analogWrite(enableA, speed);
     analogWrite(enableB, speed);
 }
@@ -56,6 +56,10 @@ void MotorController::adjustSpeed(float yawError) {
     if (digitalRead(irSensor) == LOW) {
         stop();  // Stop motors immediately if an obstacle is detected
         Serial.println("Obstacle detected! Stopping motors.");
+        delay(3000);
+        moveBackward(150);  // Move backward for 3 seconds
+        delay(2000);
+        stop();  // Stop motors after moving backward
         return;  // Exit the function to prevent further movement adjustments
     }
 
@@ -63,20 +67,17 @@ void MotorController::adjustSpeed(float yawError) {
     if (yawError > 5) {
         digitalWrite(motorA1, LOW);
         digitalWrite(motorA2, LOW);
-        digitalWrite(motorB1, HIGH);
-        digitalWrite(motorB2, LOW);
+        digitalWrite(motorB1, LOW);
+        digitalWrite(motorB2, HIGH);
     } 
     else if (yawError < -5) {
-        digitalWrite(motorA1, HIGH);
-        digitalWrite(motorA2, LOW);
+        digitalWrite(motorA1, LOW);
+        digitalWrite(motorA2, HIGH);
         digitalWrite(motorB1, LOW);
         digitalWrite(motorB2, LOW);
     } 
     else {
-        digitalWrite(motorA1, HIGH);
-        digitalWrite(motorA2, LOW);
-        digitalWrite(motorB1, HIGH);
-        digitalWrite(motorB2, LOW);
+        moveForward(constantSpeed);
     }
 
     // Apply constant speed
