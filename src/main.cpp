@@ -12,10 +12,12 @@ int motorB2 = 36;  // IN4
 int enableB = 3;  // ENB (Enable pin)
 
 // Define IR sensor pins
-#define IR_SENSOR 50
+int irLeft = 49;  // Left IR sensor
+int irRight = 51;  // Right IR sensor
+int irObstacle = 40;  // Obstacle IR sensor
 
 // Create objects
-MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, IR_SENSOR);
+MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, irLeft, irRight,irObstacle);
 GyroController gyro;
 FireSuppressionSystem fireSystem;
 
@@ -31,7 +33,7 @@ void setup() {
 void loop() {
     float currentYaw = gyro.getYaw();
     float yawError = currentYaw;
-    motor.adjustSpeed(yawError);
+    motor.adjustSpeed();
     fireSystem.checkFire();
 
     Serial.print("Yaw: ");
