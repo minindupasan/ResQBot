@@ -1,34 +1,34 @@
 #include <Arduino.h>
-
-// Define IR sensor pins
-int irLeft = 49;  // Left IR sensor
-int irRight = 51; // Right IR sensor
-int irObstacle = 50; // Obstacle IR sensor
+#define TRIG_PIN 9  // Define the pin connected to the TRIG of the ultrasonic sensor
+#define ECHO_PIN 10 // Define the pin connected to the ECHO of the ultrasonic sensor
 
 void setup() {
-    Serial.begin(115200);
-    while (!Serial)
-        delay(10);
-
-    // Initialize IR sensor pins as inputs
-    pinMode(irLeft, INPUT);
-    pinMode(irRight, INPUT);
-    pinMode(irObstacle, INPUT);
+    Serial.begin(115200); // Start serial communication at 9600 baud
+    pinMode(TRIG_PIN, OUTPUT); // Set TRIG pin as an output
+    pinMode(ECHO_PIN, INPUT);  // Set ECHO pin as an input
 }
 
 void loop() {
-    // Read sensor values
-    int leftValue = digitalRead(irLeft);
-    int rightValue = digitalRead(irRight);
-    int obstacleValue = digitalRead(irObstacle);
+    long duration;
+    float distance;
 
-    // Print sensor values
-    Serial.print("Left IR: ");
-    Serial.print(leftValue);
-    Serial.print(" | Right IR: ");
-    Serial.print(rightValue);
-    Serial.print(" | Obstacle IR: ");
-    Serial.println(obstacleValue);
+    // Trigger the ultrasonic pulse
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
 
-    delay(500); // Adjust delay as needed
+    // Read the echo response
+    duration = pulseIn(ECHO_PIN, HIGH);
+
+    // Convert duration to distance (in cm)
+    distance = duration * 0.034 / 2;
+
+    // Print the distance
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+
+    delay(500); // Wait before next measurement
 }

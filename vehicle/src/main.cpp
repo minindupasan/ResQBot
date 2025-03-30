@@ -6,17 +6,18 @@
 // Motor pin definitions
 int motorA1 = 42;  // IN1
 int motorA2 = 40;  // IN2
-int enableA = 2;  // ENA (Enable pin)
+int enableA = 2;   // ENA (Enable pin)
 int motorB1 = 38;  // IN3
 int motorB2 = 36;  // IN4
-int enableB = 3;  // ENB (Enable pin)
+int enableB = 3;   // ENB (Enable pin)
 
-// Define IR obstacle sensor pin
-int irObstacle = 50;  // Obstacle IR sensor
+// Define Ultrasonic sensor pins
+int trigPin = 9;   // Trigger pin for ultrasonic sensor
+int echoPin = 10;  // Echo pin for ultrasonic sensor
 
 // Create objects
 GyroController gyro;
-MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, irObstacle, gyro);
+MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, trigPin, echoPin, gyro);
 FireSuppressionSystem fireSystem;
 
 void setup() {
