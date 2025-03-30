@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include "GyroController.h"
 
+#define TARGET_ANGLE 70
+
 class MotorController {
 public:
     MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int irObstacle, GyroController &gyro);
@@ -16,6 +18,7 @@ public:
     void brakeTurnLeft();
     void brakeTurnRight();
     void brake();
+    void stopTurn();
 
 private:
     int motorA1, motorA2, enableA;
