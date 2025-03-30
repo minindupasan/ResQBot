@@ -10,9 +10,12 @@ public:
     void moveForward(int speed);
     void moveBackward(int speed);
     void stop();
-    void turnLeft();
-    void turnRight();
+    void turnLeft(int speed);
+    void turnRight(int speed);
     void controlCar();
+    void brakeTurnLeft();
+    void brakeTurnRight();
+    void brake();
 
 private:
     int motorA1, motorA2, enableA;

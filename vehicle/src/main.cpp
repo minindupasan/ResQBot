@@ -30,7 +30,7 @@ void setup() {
 
 void loop() {
     float currentYaw = gyro.getYaw();
-    motor.moveForward(50); // Adjusts speed using yaw correction and stops on obstacle
+    motor.controlCar();
     fireSystem.checkFire();
 
     Serial.print("Yaw: ");

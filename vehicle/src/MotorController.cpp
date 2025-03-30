@@ -66,63 +66,107 @@ void MotorController::stop() {
     analogWrite(enableA, 150); // Adjust braking power (0-255)
     analogWrite(enableB, 150);
 
-    delay(50); // Short braking duration (tune as needed)
-
-    // Completely stop the motors
-    digitalWrite(motorA1, LOW);
-    digitalWrite(motorA2, LOW);
-    digitalWrite(motorB1, LOW);
-    digitalWrite(motorB2, LOW);
-    analogWrite(enableA, 0);
-    analogWrite(enableB, 0);
-    delay(2000); // Allow time for the motors to stop
+    delay(25); // Short braking duration (tune as needed)
+    brake(); // Complete stop
 }
 
-void MotorController::turnLeft() {
+void MotorController::turnLeft(int speed) {
     float targetYaw = gyro->getYaw() - 90.0;
-    
-    analogWrite(enableA, 100);
-    analogWrite(enableB, 100);
-    digitalWrite(motorA1, HIGH);
-    digitalWrite(motorA2, LOW);
-    digitalWrite(motorB1, LOW);
-    digitalWrite(motorB2, HIGH);
-    
-    while (gyro->getYaw() > targetYaw) {
-        delay(10);
-    }
     stop();
-}
-
-void MotorController::turnRight() {
-    float targetYaw = gyro->getYaw() + 90.0;
     
-    analogWrite(enableA, 100);
-    analogWrite(enableB, 100);
+    analogWrite(enableA, speed);
+    analogWrite(enableB, speed);
     digitalWrite(motorA1, LOW);
     digitalWrite(motorA2, HIGH);
     digitalWrite(motorB1, HIGH);
     digitalWrite(motorB2, LOW);
     
-    while (gyro->getYaw() < targetYaw) {
+    while (gyro->getYaw() > targetYaw) {
+        Serial.println(gyro->getYaw());
         delay(10);
     }
+
+    brakeTurnLeft();
+}
+
+void MotorController::turnRight(int speed) {
+    float targetYaw =  90.0;
     stop();
+    
+    analogWrite(enableA, speed);
+    analogWrite(enableB, speed);
+    digitalWrite(motorA1, HIGH);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, HIGH);
+    
+    while (gyro->getYaw() < targetYaw) {
+        Serial.println(gyro->getYaw());
+        delay(10);
+    }
+    
+    brakeTurnRight();
+}
+
+void MotorController::brake(){
+        // Completely stop the motors
+        digitalWrite(motorA1, LOW);
+        digitalWrite(motorA2, LOW);
+        digitalWrite(motorB1, LOW);
+        digitalWrite(motorB2, LOW);
+        analogWrite(enableA, 0);
+        analogWrite(enableB, 0);
+        delay(2000); // Allow time for the motors to stop
+}
+
+void MotorController::brakeTurnLeft() {
+    // Reverse motors briefly for braking effect
+
+    digitalWrite(motorA1, HIGH);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, HIGH);
+    analogWrite(enableA, 150); // Braking power (0-255)
+    analogWrite(enableB, 150);
+    
+    delay(100);  // Braking duration for turning left (tune as needed)
+    digitalWrite(motorA1, LOW);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, LOW);
+}
+
+void MotorController::brakeTurnRight() {
+    // Reverse motors briefly for braking effect
+    digitalWrite(motorA1, LOW);
+    digitalWrite(motorA2, HIGH);
+    digitalWrite(motorB1, HIGH);
+    digitalWrite(motorB2, LOW);
+    analogWrite(enableA, 150); // Braking power (0-255)
+    analogWrite(enableB, 150);
+
+    delay(100);  // Braking duration for turning right (tune as needed)
+
+    digitalWrite(motorA1, LOW);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, LOW);
 }
 
 void MotorController::controlCar() {
+    int turningSpeed = 70; // Adjust turning speed as needed
     // Replace condition1 and condition2 with your actual conditions
     if (0) {
-        turnLeft();
+        turnLeft(turningSpeed);
     }
-    else if (0) {
-        turnRight();
+    else if (1) {
+        turnRight(turningSpeed );
     }
     else if (digitalRead(irObstacle) == LOW) {
         stop();
         Serial.println("Obstacle detected! Stopping motors.");
     }
     else {
-        moveForward(200); // Adjust the base speed as needed
+        moveForward(50); // Adjust the base speed as needed
     }
 }
