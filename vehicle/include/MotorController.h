@@ -3,13 +3,14 @@
 
 #include <Arduino.h>
 #include "GyroController.h"
+#include "FireSuppression.h"
 
 #define TARGET_ANGLE 70
-#define OBSTACLE_THRESHOLD 15  // Set obstacle detection threshold in cm
+#define OBSTACLE_THRESHOLD 17  // Set obstacle detection threshold in cm
 
 class MotorController {
 public:
-    MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin, GyroController &gyro);
+    MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin, GyroController &gyro, FireSuppressionSystem &fireSystem);
     void moveForward(int speed);
     void moveBackward(int speed);
     void turnLeft(int speed);
@@ -27,6 +28,7 @@ private:
     int motorB1, motorB2, enableB;
     int trigPin, echoPin; // Ultrasonic sensor pins
     GyroController *gyro;
+    FireSuppressionSystem *fireSystem;
 };
 
 #endif

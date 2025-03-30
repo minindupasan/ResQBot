@@ -1,9 +1,8 @@
 #include "MotorController.h"
-#include "GyroController.h"
 #include <Arduino.h>
 
 
-MotorController::MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin, GyroController &gyro) {
+MotorController::MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin, GyroController &gyro, FireSuppressionSystem &fireSystem) {
     this->motorA1 = motorA1;
     this->motorA2 = motorA2;
     this->enableA = enableA;
@@ -13,6 +12,7 @@ MotorController::MotorController(int motorA1, int motorA2, int enableA, int moto
     this->trigPin = trigPin;
     this->echoPin = echoPin;
     this->gyro = &gyro;
+    this->fireSystem = &fireSystem;
 
     pinMode(motorA1, OUTPUT);
     pinMode(motorA2, OUTPUT);
@@ -77,9 +77,18 @@ void MotorController::stopMoving() {
     delay(2000);
 }
 
+void MotorController::stopMotors() {
+    digitalWrite(motorA1, LOW);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, LOW);
+    digitalWrite(motorB2, LOW);
+    analogWrite(enableA, 0);
+    analogWrite(enableB, 0);
+}
+
 void MotorController::turnLeft(int speed) {
     float targetYaw = gyro->getYaw() - TARGET_ANGLE;
-    stopMoving();
+    stopMotors();
 
     analogWrite(enableA, speed);
     analogWrite(enableB, 0);
@@ -94,13 +103,13 @@ void MotorController::turnLeft(int speed) {
     }
 
     brakeTurnLeft();
-    stopMoving();
+    stopMotors();
     gyro->resetSystem();
 }
 
 void MotorController::turnRight(int speed) {
     float targetYaw = gyro->getYaw() + TARGET_ANGLE;
-    stopMoving();
+    stopMotors();
 
     analogWrite(enableA, 0);
     analogWrite(enableB, speed);
@@ -120,15 +129,26 @@ void MotorController::turnRight(int speed) {
 
 void MotorController::controlCar() {
     int turningSpeed = 60;
+    bool fireDetected = fireSystem->isFireDetected();
+
+    // Obstacle detection logic
     if (getObstacleDistance() < OBSTACLE_THRESHOLD) {
         Serial.println("Turning right due to obstacle!");
         stopMoving();
         turnRight(turningSpeed);
-    } else {
-        moveForward(50);
+    } 
+    // Fire detection logic
+    else if (fireDetected) {
+        Serial.println("Fire detected! Stopping motors and activating suppression.");
+        stopMoving();                    // Stop motors before suppressing fire
+        fireSystem->activateSuppression(); // Activate fire suppression
+    } 
+    // Default case: move forward if no obstacle or fire detected
+    else {
+        Serial.println("No obstacle, no fire detected. Moving forward.");
+        moveForward(60); 
     }
 }
-
 void MotorController::brake() {
     digitalWrite(motorA1, HIGH);
     digitalWrite(motorA2, LOW);

@@ -19,7 +19,7 @@ void FireSuppressionSystem::initialize() {
     digitalWrite(pumpRelayPin, HIGH); // Initialize relay as OFF
 }
 
-void FireSuppressionSystem::checkFire() {
+void FireSuppressionSystem::controlFireSystem() {
     state1 = digitalRead(sensor1);
     state2 = digitalRead(sensor2);
     state3 = digitalRead(sensor3);
@@ -29,24 +29,49 @@ void FireSuppressionSystem::checkFire() {
     } else {
         stopSuppression();
     }
+}
+
+bool FireSuppressionSystem::isFireDetected() {
+    state1 = digitalRead(sensor1);
+    state2 = digitalRead(sensor2);
+    state3 = digitalRead(sensor3);
+
+    Serial.print("Sensor 1: ");
+    Serial.println(state1 == LOW ? "Flame detected" : "No flame");
+    Serial.print("Sensor 2: ");
+    Serial.println(state2 == LOW ? "Flame detected" : "No flame");
+    Serial.print("Sensor 3: ");
+    Serial.println(state3 == LOW ? "Flame detected" : "No flame");
+
+    bool fireDetected = (state1 == LOW || state2 == LOW || state3 == LOW);
     
+    Serial.print("Fire Detected: ");
+    Serial.println(fireDetected ? "YES" : "NO");
+    
+    return fireDetected;
 }
 
 void FireSuppressionSystem::activateSuppression() {
-    isSuppressing = true;
-    digitalWrite(pumpRelayPin, LOW); // Turn on relay
-    for(int i=0; i<180; i++) {
-        nozzleServo.write(i);
-        delay(5);
+    if (!isSuppressing) {
+        Serial.println("Activating Fire Suppression!");
+        isSuppressing = true;
+        digitalWrite(pumpRelayPin, LOW); // Turn on relay
+
+        for (int i = 0; i < 180; i++) {
+            nozzleServo.write(i);
+            delay(5);
+        }
+
+        for (int i = 180; i > 0; i--) {
+            nozzleServo.write(i);
+            delay(5);
+        }
+
+        nozzleServo.write(90);
+        stopSuppression();
+        delay(1000);
+        gyroController.resetSystem();
     }
-    for(int i=180; i>0; i--) {
-        nozzleServo.write(i);
-        delay(5);
-    }
-    nozzleServo.write(90);
-    stopSuppression();
-    delay(1000);
-    gyroController.resetSystem();
 }
 
 void FireSuppressionSystem::stopSuppression() {

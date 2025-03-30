@@ -17,8 +17,8 @@ int echoPin = 10;  // Echo pin for ultrasonic sensor
 
 // Create objects
 GyroController gyro;
-MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, trigPin, echoPin, gyro);
 FireSuppressionSystem fireSystem;
+MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, trigPin, echoPin, gyro, fireSystem);
 
 void setup() {
     Serial.begin(115200);
@@ -32,8 +32,6 @@ void setup() {
 void loop() {
     float currentYaw = gyro.getYaw();
     motor.controlCar();
-    fireSystem.checkFire();
-
     Serial.print("Yaw: ");
     Serial.println(currentYaw);
 
