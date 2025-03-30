@@ -58,12 +58,24 @@ void MotorController::moveBackward(int speed) {
 }
 
 void MotorController::stop() {
+    // Apply brief reverse power for braking
+    digitalWrite(motorA1, HIGH);
+    digitalWrite(motorA2, LOW);
+    digitalWrite(motorB1, HIGH);
+    digitalWrite(motorB2, LOW);
+    analogWrite(enableA, 150); // Adjust braking power (0-255)
+    analogWrite(enableB, 150);
+
+    delay(50); // Short braking duration (tune as needed)
+
+    // Completely stop the motors
     digitalWrite(motorA1, LOW);
     digitalWrite(motorA2, LOW);
     digitalWrite(motorB1, LOW);
     digitalWrite(motorB2, LOW);
     analogWrite(enableA, 0);
     analogWrite(enableB, 0);
+    delay(2000); // Allow time for the motors to stop
 }
 
 void MotorController::turnLeft() {
@@ -96,4 +108,21 @@ void MotorController::turnRight() {
         delay(10);
     }
     stop();
+}
+
+void MotorController::controlCar() {
+    // Replace condition1 and condition2 with your actual conditions
+    if (0) {
+        turnLeft();
+    }
+    else if (0) {
+        turnRight();
+    }
+    else if (digitalRead(irObstacle) == LOW) {
+        stop();
+        Serial.println("Obstacle detected! Stopping motors.");
+    }
+    else {
+        moveForward(200); // Adjust the base speed as needed
+    }
 }

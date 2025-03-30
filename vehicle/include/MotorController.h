@@ -12,6 +12,7 @@ public:
     void stop();
     void turnLeft();
     void turnRight();
+    void controlCar();
 
 private:
     int motorA1, motorA2, enableA;
