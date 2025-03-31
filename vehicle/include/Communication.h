@@ -4,10 +4,11 @@
 #include <WiFiEsp.h>
 #include <WiFiEspServer.h>
 #include <SoftwareSerial.h>
+#include "arduino_secrets.h"  // Include your secrets file
 
 // Wi-Fi Credentials
-#define WIFI_SSID "Dialog 4G 875"
-#define WIFI_PASSWORD "f45902DF"
+#define WIFI_SSID "SECRET_SSID"  
+#define WIFI_PASSWORD "SECRET_PASS" 
 
 // Pin Definitions for Communication
 #define ARDUINO_RX 10  // Connect to Mega TX

@@ -16,9 +16,10 @@ class FireSuppressionSystem {
 public:
     FireSuppressionSystem();
     void initialize();
-    void checkFire();
+    void controlFireSystem();
     void activateSuppression();
     void stopSuppression();
+    bool isFireDetected();
     GyroController gyroController;
 
 private:
