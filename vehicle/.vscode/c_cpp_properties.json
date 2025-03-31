@@ -10,6 +10,7 @@
             "includePath": [
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/include",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/src",
+                "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/WiFiEsp/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Servo/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit MPU6050",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor",
@@ -31,6 +32,7 @@
                 "path": [
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/include",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/src",
+                    "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/WiFiEsp/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Servo/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit MPU6050",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor",

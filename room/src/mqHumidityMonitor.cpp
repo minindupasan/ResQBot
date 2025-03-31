@@ -1,4 +1,4 @@
-#include "mq_humidity_monitor.h"
+#include "mqHumidityMonitor.h"
 #include <Arduino.h>  
 
 // Create an instance for the DHT sensor
