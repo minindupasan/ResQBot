@@ -5,7 +5,7 @@
 #include "GyroController.h"
 #include "FireSuppression.h"
 
-#define TARGET_ANGLE 70
+#define TARGET_ANGLE 75
 #define OBSTACLE_THRESHOLD 17  // Set obstacle detection threshold in cm
 
 class MotorController {

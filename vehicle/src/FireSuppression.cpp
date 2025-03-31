@@ -59,13 +59,18 @@ void FireSuppressionSystem::activateSuppression() {
 
         for (int i = 0; i < 180; i++) {
             nozzleServo.write(i);
-            delay(5);
+            delay(25);
         }
 
         for (int i = 180; i > 0; i--) {
             nozzleServo.write(i);
-            delay(5);
+            delay(25);
         }
+        for (int i = 0; i < 180; i++) {
+            nozzleServo.write(i);
+            delay(25);
+        }
+
 
         nozzleServo.write(90);
         stopSuppression();
