@@ -6,7 +6,7 @@
 // Define sensor and buzzer pins
 #define IR_FLAME_PIN_1 4
 #define IR_FLAME_PIN_2 5
-#define BUZZER_PIN 13
+#define BUZZER_PIN 25
 
 // Function prototypes
 int detectFlame();

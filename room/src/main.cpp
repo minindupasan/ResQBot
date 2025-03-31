@@ -33,7 +33,7 @@ void loop() {
     if (fireRoom != 0) {
         fireControl();
         sendFireAlert(fireRoom);  // Send the detected room number to ESP-01
-        delay(5000);  // Avoid spamming requests
+        delay(2500);  // Avoid spamming requests
     }
     mqValue = readMQSensor();  // Read MQ sensor value
     humidity = readHumidity(); // Read humidity

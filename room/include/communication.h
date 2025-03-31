@@ -6,8 +6,8 @@
 #include "arduino_secrets.h"
 
 // Wi-Fi credentials
-#define WIFI_SSID "SECRET_SSID"
-#define WIFI_PASSWORD "SECRET_PASS"
+#define WIFI_SSID SECRET_SSID
+#define WIFI_PASSWORD SECRET_PASS
 
 // ESP-01 Server IP Address (Static IP)
 #define SERVER_IP "192.168.1.100"
