@@ -1,13 +1,16 @@
 #include "fireDetection.h"
+#include "communication.h"
 
 void fireControl() {
     int flameDetected = detectFlame();  // Store the result once
 
     if (flameDetected == 1) {
         Serial.println("🔥 Fire detected in Room 1!");
+        sendRoomNumber("room1");  // Send room number to HC-06
         alertFire();
     } else if (flameDetected == 2) {
         Serial.println("🔥 Fire detected in Room 2!");
+        sendRoomNumber("room2");  // Send room number to HC-06
         alertFire();
     } else {
         Serial.println("✅ No fire detected.");
@@ -17,7 +20,7 @@ void fireControl() {
 
 int detectFlame() {
     int room1State = digitalRead(IR_FLAME_PIN_1);
-    int room2State = digitalRead(IR_FLAME_PIN_2);
+    int room2State = digitalRead(IR_FLAME_PIN_2) == LOW;
 
     Serial.print("📡 Room 1 Sensor: ");
     Serial.println(room1State);
@@ -25,7 +28,7 @@ int detectFlame() {
     Serial.println(room2State);
 
     if (room1State == HIGH) return 1;
-    if (room2State == LOW) return 2;
+    if (room2State == HIGH) return 2;
     
     return 0;
 }

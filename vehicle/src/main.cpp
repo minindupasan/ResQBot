@@ -22,19 +22,12 @@ MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, trig
 
 void setup() {
     Serial.begin(115200);
-    setupWiFi();   // Initialize Wi-Fi connection
-    setupServer(); // Start the server
-
-    while (!Serial)
-        delay(10);
-
+    initBluetooth();
     gyro.initialize();
     fireSystem.initialize();
 }
 
 void loop() {
-    handleClientRequests(); // Process incoming fire alerts
-
     float currentYaw = gyro.getYaw();
     motor.controlCar();
     Serial.print("Yaw: ");

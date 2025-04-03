@@ -6,24 +6,10 @@
 #include <SoftwareSerial.h>
 #include "arduino_secrets.h"  // Include your secrets file
 
-// Wi-Fi Credentials
-#define WIFI_SSID "SECRET_SSID"  
-#define WIFI_PASSWORD "SECRET_PASS" 
+const int bluetoothRx = 18; // HC-06 TX → Mega RX1 (Pin 18)
+const int bluetoothTx = 19; // HC-06 RX → Mega TX1 (Pin 19)
 
-// Pin Definitions for Communication
-#define ARDUINO_RX 10  // Connect to Mega TX
-#define ARDUINO_TX 11  // Connect to Mega RX
-
-// SoftwareSerial for communication with Arduino Mega
-extern SoftwareSerial megaSerial;
-
-// WiFi server for handling requests
-extern WiFiEspServer server;
-
-// Function Declarations
-void setupWiFi();
-void setupServer();
-void handleClientRequests();
-void sendRoomToMega(char roomNumber);
+void initBluetooth();
+String receiveRoomNumber();
 
 #endif  // COMMUNICATION_H

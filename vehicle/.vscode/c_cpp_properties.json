@@ -1,3 +1,8 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
 {
     "configurations": [
         {
@@ -20,8 +25,7 @@
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Unity/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "",
-                "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle"
+                ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
