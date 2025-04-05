@@ -40,21 +40,13 @@ bool MotorController::isObstacleDetected() {
 }
 
 void MotorController::moveForward(int baseSpeed) {
-    if (isObstacleDetected() || fireSystem->isFireDetected()) {
+    Serial.println("Checking for obstacles and fire...");
+    if (isObstacleDetected()) {
+        Serial.println("Obstacle detected or fire detected! Stopping motors.");
         stopMoving();
-        if (fireSystem->isFireDetected()) {
-            Serial.println("Fire detected! Stopping motors.");
-            fireSystem->activateSuppression();
-            delay(2000); // Wait for 2 seconds
-            moveBackward(60); // Move backward for 2 seconds
-            delay(1000);
-        }
-        else {
-            Serial.println("Obstacle detected! Stopping motors.");
-        }
-        return;
     }
-
+    Serial.println("Moving forward");
+    
     float yawError = gyro->getYaw();
     float correction = yawError * 2.0; // Proportional control (tune this factor as needed)
     
@@ -67,6 +59,7 @@ void MotorController::moveForward(int baseSpeed) {
     digitalWrite(motorA2, HIGH);
     digitalWrite(motorB1, LOW);
     digitalWrite(motorB2, HIGH);
+    Serial.println("Moved forward");
 }
 
 void MotorController::moveBackward(int speed) {
@@ -140,7 +133,7 @@ void MotorController::turnRight(int speed) {
     }
 
     brakeTurnRight();
-    // gyro->resetSystem();
+    gyro->resetYaw();
 }
 
 void MotorController::controlCar() {
@@ -223,15 +216,53 @@ void MotorController::moveToRoom(String roomNumber) {
 
         if (!isRightDetected() && !isObstacleDetected()) {
             Serial.println("Room 1 detected, turning right");
-            delay(300);
+            delay(100);
             stopMoving();
             delay(2000); // Wait for 2 seconds
             turnRight(turningSpeed);
+            Serial.println("Successfully turned right");
             delay(2000); // Adjust delay as needed
-            moveForward(speed);
+            while (!fireSystem->isFireDetected() && !isObstacleDetected()) {
+                moveForward(speed);
+                delay(100); // Small delay to avoid overwhelming the system
+            }
+            stopMoving();
+            if (fireSystem->isFireDetected()) {
+                Serial.println("Fire detected while moving to Room 1. Activating suppression.");
+                fireSystem->activateSuppression();
+            } else if (isObstacleDetected()) {
+                Serial.println("Obstacle detected while moving to Room 1. Stopping.");
+            }
         } else if (isObstacleDetected()) {
             Serial.println("Obstacle detected, stopping");
-            stopMoving();
+            stopMotors();
         }
-    }
+    } else if(roomNumber == "room2"){
+        Serial.println("Navigating to Room 2"); 
+        moveForward(speed);
+
+        if (!isRightDetected() && isObstacleDetected()) {
+            Serial.println("Room 1 detected, turning right");
+            delay(100);
+            stopMoving();
+            delay(2000); // Wait for 2 seconds
+            turnRight(turningSpeed);
+            Serial.println("Successfully turned right");
+            delay(2000); // Adjust delay as needed
+            while (!fireSystem->isFireDetected() && !isObstacleDetected()) {
+                moveForward(speed);
+                delay(100); // Small delay to avoid overwhelming the system
+            }
+            stopMoving();
+            if (fireSystem->isFireDetected()) {
+                Serial.println("Fire detected while moving to Room 1. Activating suppression.");
+                fireSystem->activateSuppression();
+            } else if (isObstacleDetected()) {
+                Serial.println("Obstacle detected while moving to Room 1. Stopping.");
+            }
+        } else if (isObstacleDetected()) {
+            Serial.println("Obstacle detected, stopping");
+            stopMotors();
+        }
+    } 
 }

@@ -13,13 +13,17 @@ public:
     void initialize();
     float getYaw();
     void calibrateGyro();
-    void resetSystem();
+    void resetSystem(); // Hard reset (watchdog)
+    void resetYaw();    // Soft reset (zero current yaw)
 
 private:
     Adafruit_MPU6050 mpu;
-    float currentYaw = 0;   // Current yaw angle
-    float gyroZ_offset = 0; // Offset for gyro drift
+    float currentYaw = 0;     // Current yaw angle
+    float gyroZ_offset = 0;   // Offset for gyro drift
     unsigned long lastTime = 0;
+
+    // Persistent sensor events to avoid heap fragmentation
+    sensors_event_t accelEvent, gyroEvent, tempEvent;
 };
 
 #endif

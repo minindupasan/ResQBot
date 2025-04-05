@@ -20,11 +20,10 @@ void setup() {
 
 void loop() {
     float currentYaw = gyro.getYaw();
+    Serial.println(currentYaw);
     String roomNumber = bt.receiveRoomNumber();  // Get once
     Serial.print("Received Room Number: ");
     Serial.println(roomNumber);
     motor.moveToRoom(roomNumber);  // Use the same value
     Serial.print("Yaw: ");
-    Serial.println(currentYaw);
-    delay(50);
 }

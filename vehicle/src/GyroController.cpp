@@ -1,9 +1,7 @@
 #include "GyroController.h"
-#include <Wire.h>
-#include <Arduino.h>
 
 GyroController::GyroController() {
-    // Constructor implementation
+    // Constructor
 }
 
 void GyroController::initialize() {
@@ -23,11 +21,10 @@ float GyroController::getYaw() {
     float dt = (currentTime - lastTime) / 1000.0; // Time difference in seconds
     lastTime = currentTime;
 
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
+    mpu.getEvent(&accelEvent, &gyroEvent, &tempEvent);
 
     // Gyroscope Z-axis value in degrees per second
-    float gyroZ = g.gyro.z * 57.2958 - gyroZ_offset; // Convert rad/s to deg/s and subtract offset
+    float gyroZ = gyroEvent.gyro.z * 57.2958 - gyroZ_offset; // Convert rad/s to deg/s
 
     // Integrate gyroscope data to get yaw angle
     currentYaw += gyroZ * dt;
@@ -41,9 +38,8 @@ void GyroController::calibrateGyro() {
     int n = 500;
 
     for (int i = 0; i < n; i++) {
-        sensors_event_t a, g, temp;
-        mpu.getEvent(&a, &g, &temp);
-        sum += g.gyro.z * 57.2958; // Convert rad/s to deg/s
+        mpu.getEvent(&accelEvent, &gyroEvent, &tempEvent);
+        sum += gyroEvent.gyro.z * 57.2958; // Convert rad/s to deg/s
         delay(5);
     }
 
@@ -53,14 +49,18 @@ void GyroController::calibrateGyro() {
     Serial.println("Calibration complete!");
 }
 
+void GyroController:: resetYaw() {
+    Serial.println("Yaw reset");
+    currentYaw = 0;
+    lastTime = millis();
+}
+
 void GyroController::resetSystem() {
     Serial.println("System Resetting...");
 
-    // Enable Watchdog Timer for 1 second timeout
-    wdt_enable(WDTO_15MS); // 15ms timeout
+    // Enable Watchdog Timer for 15ms timeout
+    wdt_enable(WDTO_15MS);
 
     // Wait for the watchdog to trigger a reset
     while (true) {}
-
-    // Note: The board will reset before reaching this point
 }

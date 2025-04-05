@@ -6,7 +6,7 @@
 #include "FireSuppression.h"
 
 #define TARGET_ANGLE 70
-#define OBSTACLE_THRESHOLD 17  // Set obstacle detection threshold in cm
+#define OBSTACLE_THRESHOLD 19  // Set obstacle detection threshold in cm
 
 #define MOTOR_A1 42  // IN1
 #define MOTOR_A2 40  // IN2
