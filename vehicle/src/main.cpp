@@ -4,34 +4,27 @@
 #include "FireSuppression.h"
 #include "Communication.h"
 
-// Motor pin definitions
-int motorA1 = 42;  // IN1
-int motorA2 = 40;  // IN2
-int enableA = 2;   // ENA (Enable pin)
-int motorB1 = 38;  // IN3
-int motorB2 = 36;  // IN4
-int enableB = 3;   // ENB (Enable pin)
-
-// Define Ultrasonic sensor pins
-int trigPin = 9;   // Trigger pin for ultrasonic sensor
-int echoPin = 10;  // Echo pin for ultrasonic sensor
-
 GyroController gyro;
 FireSuppressionSystem fireSystem;
-MotorController motor(motorA1, motorA2, enableA, motorB1, motorB2, enableB, trigPin, echoPin, gyro, fireSystem);
+MotorController motor(MOTOR_A1, MOTOR_A2, ENABLE_A, MOTOR_B1, MOTOR_B2, ENABLE_B, TRIG_PIN, ECHO_PIN,IR_RIGHT, gyro, fireSystem);
+Communication bt;
+
+String roomNumber;
 
 void setup() {
     Serial.begin(115200);
-    initBluetooth();
+    bt.initBluetooth();
     gyro.initialize();
     fireSystem.initialize();
-}
+}                                               
 
 void loop() {
     float currentYaw = gyro.getYaw();
-    motor.controlCar();
+    String roomNumber = bt.receiveRoomNumber();  // Get once
+    Serial.print("Received Room Number: ");
+    Serial.println(roomNumber);
+    motor.moveToRoom(roomNumber);  // Use the same value
     Serial.print("Yaw: ");
     Serial.println(currentYaw);
-
     delay(50);
 }

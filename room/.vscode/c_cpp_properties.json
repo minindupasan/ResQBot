@@ -10,7 +10,7 @@
             "includePath": [
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/include",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/src",
-                "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BluetoothSerial/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/.pio/libdeps/esp32dev/EspSoftwareSerial/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/.pio/libdeps/esp32dev/ghostl/src",
@@ -216,7 +216,6 @@
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoOTA/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/AsyncUDP/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src",
-                "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BluetoothSerial/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/DNSServer/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/ESP32/src",
@@ -242,6 +241,7 @@
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                 ""
@@ -251,7 +251,7 @@
                 "path": [
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/include",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/src",
-                    "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BluetoothSerial/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/.pio/libdeps/esp32dev/EspSoftwareSerial/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/room/.pio/libdeps/esp32dev/ghostl/src",
@@ -457,7 +457,6 @@
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoOTA/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/AsyncUDP/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src",
-                    "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/BluetoothSerial/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/DNSServer/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/ESP32/src",
@@ -483,6 +482,7 @@
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                    "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                     ""

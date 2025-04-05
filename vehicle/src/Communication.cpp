@@ -1,17 +1,19 @@
 #include "Communication.h"
 
-void initBluetooth() {
+Communication::Communication() {
+    // Constructor
+}
+
+void Communication::initBluetooth() {
     Serial.begin(115200);
     Serial1.begin(9600); // HC-06 default baud rate
     Serial.println("Vehicle Ready to Receive via HC-06");
 }
 
-String receiveRoomNumber() {
-    String receivedData;
+String Communication::receiveRoomNumber() {
     if (Serial1.available()) {
-        receivedData = Serial1.readStringUntil('\n');
-        Serial.print("Received: ");
-        Serial.println(receivedData);
+        roomNumber = Serial1.readStringUntil('\n');
+        roomNumber.trim();  // Remove trailing newline or spaces
     }
-    return receivedData;
-}
+    return roomNumber;
+}                                                                                                               

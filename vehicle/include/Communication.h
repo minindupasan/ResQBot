@@ -6,10 +6,17 @@
 #include <SoftwareSerial.h>
 #include "arduino_secrets.h"  // Include your secrets file
 
-const int bluetoothRx = 18; // HC-06 TX → Mega RX1 (Pin 18)
-const int bluetoothTx = 19; // HC-06 RX → Mega TX1 (Pin 19)
+#define BT_RX 18 // HC-06 TX → Mega RX1 (Pin 18)
+#define BT_TX 19 // HC-06 RX → Mega TX1 (Pin 19)
 
-void initBluetooth();
-String receiveRoomNumber();
+class Communication {
+public:
+    Communication();
+    void initBluetooth();
+    String receiveRoomNumber();
+
+private:
+    String roomNumber;
+};
 
 #endif  // COMMUNICATION_H

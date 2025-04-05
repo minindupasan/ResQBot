@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 
-MotorController::MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin, GyroController &gyro, FireSuppressionSystem &fireSystem) {
+MotorController::MotorController(int motorA1, int motorA2, int enableA, int motorB1, int motorB2, int enableB, int trigPin, int echoPin,int irRight, GyroController &gyro, FireSuppressionSystem &fireSystem) {
     this->motorA1 = motorA1;
     this->motorA2 = motorA2;
     this->enableA = enableA;
@@ -11,6 +11,7 @@ MotorController::MotorController(int motorA1, int motorA2, int enableA, int moto
     this->enableB = enableB;
     this->trigPin = trigPin;
     this->echoPin = echoPin;
+    this->irRight = irRight;
     this->gyro = &gyro;
     this->fireSystem = &fireSystem;
 
@@ -22,9 +23,10 @@ MotorController::MotorController(int motorA1, int motorA2, int enableA, int moto
     pinMode(enableB, OUTPUT);
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
+    pinMode(irRight, INPUT);
 }
 
-float MotorController::getObstacleDistance() {
+bool MotorController::isObstacleDetected() {
     digitalWrite(trigPin, LOW);
     delayMicroseconds(2);
     digitalWrite(trigPin, HIGH);
@@ -33,13 +35,23 @@ float MotorController::getObstacleDistance() {
 
     long duration = pulseIn(echoPin, HIGH);
     float distance = duration * 0.034 / 2; // Convert to cm
-    return distance;
+
+    return distance < OBSTACLE_THRESHOLD;
 }
 
 void MotorController::moveForward(int baseSpeed) {
-    if (getObstacleDistance() < OBSTACLE_THRESHOLD) {
+    if (isObstacleDetected() || fireSystem->isFireDetected()) {
         stopMoving();
-        Serial.println("Obstacle detected! Stopping motors.");
+        if (fireSystem->isFireDetected()) {
+            Serial.println("Fire detected! Stopping motors.");
+            fireSystem->activateSuppression();
+            delay(2000); // Wait for 2 seconds
+            moveBackward(60); // Move backward for 2 seconds
+            delay(1000);
+        }
+        else {
+            Serial.println("Obstacle detected! Stopping motors.");
+        }
         return;
     }
 
@@ -67,6 +79,7 @@ void MotorController::moveBackward(int speed) {
 }
 
 void MotorController::stopMoving() {
+    Serial.println("Stopping motors");
     brake();
     digitalWrite(motorA1, LOW);
     digitalWrite(motorA2, LOW);
@@ -78,6 +91,7 @@ void MotorController::stopMoving() {
 }
 
 void MotorController::stopMotors() {
+    Serial.println("Stopping motors");
     digitalWrite(motorA1, LOW);
     digitalWrite(motorA2, LOW);
     digitalWrite(motorB1, LOW);
@@ -87,6 +101,7 @@ void MotorController::stopMotors() {
 }
 
 void MotorController::turnLeft(int speed) {
+    Serial.println("Turning left");
     float targetYaw = gyro->getYaw() - TARGET_ANGLE;
     stopMotors();
 
@@ -108,6 +123,7 @@ void MotorController::turnLeft(int speed) {
 }
 
 void MotorController::turnRight(int speed) {
+    Serial.println("Turning right");
     float targetYaw = gyro->getYaw() + TARGET_ANGLE;
     stopMotors();
 
@@ -124,7 +140,7 @@ void MotorController::turnRight(int speed) {
     }
 
     brakeTurnRight();
-    gyro->resetSystem();
+    // gyro->resetSystem();
 }
 
 void MotorController::controlCar() {
@@ -132,7 +148,7 @@ void MotorController::controlCar() {
     bool fireDetected = fireSystem->isFireDetected();
 
     // Obstacle detection logic
-    if (getObstacleDistance() < OBSTACLE_THRESHOLD) {
+    if (isObstacleDetected()) {
         Serial.println("Turning right due to obstacle!");
         stopMoving();
         turnRight(turningSpeed);
@@ -189,4 +205,33 @@ void MotorController::brakeTurnRight() {
     digitalWrite(motorA2, LOW);
     digitalWrite(motorB1, LOW);
     digitalWrite(motorB2, LOW);
+}
+
+int MotorController::isRightDetected() {
+    return(digitalRead(irRight)==LOW);
+}
+
+void MotorController::moveToRoom(String roomNumber) {
+    int turningSpeed = 60;
+    int speed = 60;
+    Serial.print("Moving to room: ");
+    Serial.println(roomNumber);
+
+    if (roomNumber == "room1") {
+        Serial.println("Navigating to Room 1"); 
+        moveForward(speed);
+
+        if (!isRightDetected() && !isObstacleDetected()) {
+            Serial.println("Room 1 detected, turning right");
+            delay(300);
+            stopMoving();
+            delay(2000); // Wait for 2 seconds
+            turnRight(turningSpeed);
+            delay(2000); // Adjust delay as needed
+            moveForward(speed);
+        } else if (isObstacleDetected()) {
+            Serial.println("Obstacle detected, stopping");
+            stopMoving();
+        }
+    }
 }
