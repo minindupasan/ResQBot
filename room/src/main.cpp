@@ -1,28 +1,56 @@
-#include <Wire.h>
-#include <SoftwareSerial.h>
-#include "mqHumidityMonitor.h"
+#include "arduino_secrets.h"
+#include "environmentMonitor.h"
 #include "fireDetection.h"
 #include "communication.h"
-#include "gsm.h"
+#include "thingProperties.h"
 #include <Arduino.h>
 
-// Initialize variables
-int mqValue = 0;               // Variable to store MQ sensor value
-bool flameDetected = false;    // Boolean to store flame detection status
-float humidity = 0.0;          // Variable to store humidity value
-
-unsigned long lastCheckTime = 0;
-const unsigned long checkInterval = 5000;  // Check every 5 seconds
-
 void setup() {
-  // Start serial communication
+  // Initialize serial and wait for port to open:
   Serial.begin(115200);
-  initBluetooth();  // Initialize Wi-Fi connection
-  delay(1000);
-  
-  Serial.println("✅ System initialized.");
+  initDHT(); // Initialize DHT sensor
+  pinMode(IR_FLAME_PIN_1, INPUT);
+  pinMode(IR_FLAME_PIN_2, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  initBluetooth(); // Initialize Bluetooth communication
+
+  // Defined in thingProperties.h
+  initProperties();
+
+  // Connect to Arduino IoT Cloud
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  setDebugMessageLevel(2);
+  ArduinoCloud.printDebugInfo();
 }
 
 void loop() {
-    fireControl();
+  ArduinoCloud.update();
+
+  // Read values from sensors
+  float temp = readTemperature();
+  float hum = readHumidity();
+  int mq = readMQSensor();
+  int flame = detectFlame();
+
+  temperature = temp;
+  humidity = hum;
+  mqValue = mq;
+  flameDetected = (flame != 0);
+  fireAlert = flameDetected;
+
+  if (flameDetected) {
+    alertFire();
+  } else {
+    stopBuzzer();
+  }
+
+  fireControl();
 }
+
+
+
+
+
+
+
+
