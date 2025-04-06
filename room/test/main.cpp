@@ -1,33 +1,49 @@
-#include "BluetoothSerial.h"
+#include <WiFi.h>
 
-BluetoothSerial SerialBT;
+const char *ssid = "Dialog 4G 875";       // Your Wi-Fi SSID
+const char *password = "f45902DF"; // Your Wi-Fi password
+
+WiFiServer server(80); // Start the server on port 80
 
 void setup() {
-    Serial.begin(115200);
+  Serial.begin(115200);
 
-    // Enable Master Mode by setting second parameter to `true`
-    SerialBT.begin("ESP32_BT", true);  
-    Serial.println("ESP32 Bluetooth Started in Master Mode");
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
 
-    // Try to connect to HC-05
-    bool connected = SerialBT.connect("HC-06");
-    if (connected) {
-        Serial.println("✅ Connected to HC-06!");
-    } else {
-        Serial.println("❌ Failed to connect. Make sure HC-06 is in pairing mode.");
-    }
+  Serial.println("Connected to WiFi");
+  Serial.print("ESP32 IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Start the server
+  server.begin();
 }
 
 void loop() {
-    if (SerialBT.connected()) {
-        Serial.println("✅ HC-05 Connected!");
-        if (SerialBT.available()) {
-            String receivedData = SerialBT.readStringUntil('\n');
-            Serial.print("📩 Received: ");
-            Serial.println(receivedData);
-        }
-    } else {
-        Serial.println("⏳ Waiting for HC-05 connection...");
-        delay(2000);
+  // Wait for a client to connect
+  WiFiClient client = server.available();
+  if (client) {
+    Serial.println("New client connected");
+
+    // Send a welcome message once the client connects
+    client.println("HTTP/1.1 200 OK");
+    client.println("Content-Type: text/plain");
+    client.println("Connection: keep-alive");
+    client.println();  // Blank line before the message
+    client.println("Hello from ESP32 server. Waiting for further messages...");
+
+    // Continuously send messages to the client (Arduino Mega)
+    while (client.connected()) {
+      String message = "Continuous message from ESP32: " + String(millis());
+      client.println(message);  // Send message with current timestamp
+      delay(10);  // Wait 1 second between messages
     }
+
+    client.stop();  // Stop the client connection once it's no longer connected
+    Serial.println("Client disconnected");
+  }
 }

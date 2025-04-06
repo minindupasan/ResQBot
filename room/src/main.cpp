@@ -29,7 +29,7 @@ void setup() {
   setDebugMessageLevel(2);
   ArduinoCloud.printDebugInfo();
 
-  initBluetooth(); // 🔄 Replaced Bluetooth with Wi-Fi initialization
+  initWifi();
 }
 
 void loop() {

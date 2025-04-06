@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 #include "BluetoothSerial.h"
+#include "arduino_secrets.h"
 
 // Function prototype
-void initBluetooth();
+void initWifi();
 void sendRoomNumber(String roomNumber);
 
 #endif

@@ -10,7 +10,6 @@
             "includePath": [
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/include",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/src",
-                "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/WiFiEsp/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Servo/src",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit MPU6050",
@@ -18,13 +17,16 @@
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit BusIO",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/SoftwareSerial",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/variants/mega",
+                "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/lib/ESP8266-master",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit GFX Library",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit SSD1306",
                 "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Unity/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 ""
             ],
             "browse": {
@@ -32,7 +34,6 @@
                 "path": [
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/include",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/src",
-                    "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/WiFiEsp/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Servo/src",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit MPU6050",
@@ -40,13 +41,16 @@
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit BusIO",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/SoftwareSerial",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/variants/mega",
+                    "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/lib/ESP8266-master",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit GFX Library",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Adafruit SSD1306",
                     "/Users/minindupasan/Documents/GitHub/Smart Fire Vehicle/vehicle/.pio/libdeps/megaatmega2560/Unity/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/Users/minindupasan/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                     ""
                 ]
             },
