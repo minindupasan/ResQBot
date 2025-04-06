@@ -75,7 +75,8 @@ void FireSuppressionSystem::activateSuppression() {
         nozzleServo.write(90);
         stopSuppression();
         delay(1000);
-        gyroController.resetSystem();
+        // gyroController.resetSystem();
+        exit(0);
     }
 }
 

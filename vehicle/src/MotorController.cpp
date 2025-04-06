@@ -207,8 +207,6 @@ int MotorController::isRightDetected() {
 void MotorController::moveToRoom(String roomNumber) {
     int turningSpeed = 60;
     int speed = 60;
-    Serial.print("Moving to room: ");
-    Serial.println(roomNumber);
 
     if (roomNumber == "room1") {
         Serial.println("Navigating to Room 1"); 
@@ -264,5 +262,8 @@ void MotorController::moveToRoom(String roomNumber) {
             Serial.println("Obstacle detected, stopping");
             stopMotors();
         }
-    } 
+    } else{
+        Serial.println("No fire detected");
+        stopMotors();
+    }
 }

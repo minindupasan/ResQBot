@@ -25,16 +25,7 @@ void setup() {
   }                                             
 
 void loop() {
-    float currentYaw = gyro.getYaw();
-    Serial.print("Current Yaw: ");
-    Serial.println(currentYaw);
     roomNumber = wifi.receiveRoomNumber();  
-    
-    if (roomNumber.length() > 0) { 
-        Serial.print("Received Room Number: ");
-        Serial.println(roomNumber);
-        motor.moveToRoom(roomNumber);
-    }
-
+    motor.moveToRoom(roomNumber);
     delay(50); 
 }
