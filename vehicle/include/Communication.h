@@ -12,6 +12,7 @@ public:
 
 private:
     bool sendAT(const String& cmd, unsigned long timeout);
+    int LED_PIN = 53; // Pin for LED
 };
 
 #endif

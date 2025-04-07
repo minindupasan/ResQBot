@@ -4,6 +4,8 @@
 WiFiServer server(80);  // Port 80
 WiFiClient client;
 
+const int LED_PIN = 2;  // Built-in LED pin (commonly GPIO2)
+
 void initWifi() {
   Serial.println("Initializing WiFi...");
 
@@ -27,6 +29,9 @@ void initWifi() {
 
   server.begin();
   Serial.println("Server started on port 80");
+
+  pinMode(LED_PIN, OUTPUT);  // Setup LED pin
+  digitalWrite(LED_PIN, LOW); // Turn off initially
 }
 
 void sendRoomNumber(String roomNumber) {
@@ -39,7 +44,10 @@ void sendRoomNumber(String roomNumber) {
   if (client && client.connected()) {
     client.println(roomNumber);
     Serial.println("Room number sent to Arduino: " + roomNumber);
+    
+    digitalWrite(LED_PIN, HIGH);  // Turn on LED
   } else {
     Serial.println("Client not connected yet.");
+    digitalWrite(LED_PIN, LOW);   // Turn off LED if not connected
   }
 }

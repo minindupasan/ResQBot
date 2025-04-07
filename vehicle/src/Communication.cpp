@@ -17,11 +17,11 @@ void Communication::initWifi() {
     while (true) {
         bool connected = sendAT("AT+CIPSTART=\"TCP\",\"192.168.8.139\",80", 5000);
         if (connected) {
-            digitalWrite(LED_BUILTIN, HIGH); // Turn on LED if connected
+            digitalWrite(53, HIGH); // Turn off LED if not connected
             Serial.println("Connected to ESP32 TCP server.");
             break;
         } else {
-            digitalWrite(LED_BUILTIN, LOW); // Turn off LED if not connected
+            digitalWrite(53, LOW); // Turn on LED if not connected
             Serial.println("Failed to connect to ESP32 TCP server. Retrying...");
             delay(2000); // Wait before retrying
         }

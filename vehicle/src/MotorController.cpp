@@ -49,7 +49,9 @@ void MotorController::moveForward(int baseSpeed) {
     
     float yawError = gyro->getYaw();
     float correction = yawError * 2.0; // Proportional control (tune this factor as needed)
-    
+    Serial.print("Yaw Error: ");
+    Serial.println(yawError);
+
     int leftSpeed = constrain(baseSpeed + correction, 0, 255);
     int rightSpeed = constrain(baseSpeed - correction, 0, 255);
     
@@ -59,7 +61,6 @@ void MotorController::moveForward(int baseSpeed) {
     digitalWrite(motorA2, HIGH);
     digitalWrite(motorB1, LOW);
     digitalWrite(motorB2, HIGH);
-    Serial.println("Moved forward");
 }
 
 void MotorController::moveBackward(int speed) {
@@ -262,8 +263,9 @@ void MotorController::moveToRoom(String roomNumber) {
             Serial.println("Obstacle detected, stopping");
             stopMotors();
         }
-    } else{
-        Serial.println("No fire detected");
-        stopMotors();
-    }
+    } 
+    // else{
+    //     Serial.println("No fire detected");
+    //     // stopMotors();
+    // }
 }
