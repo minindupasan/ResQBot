@@ -25,8 +25,7 @@ MotorController::MotorController(int motorA1, int motorA2, int enableA, int moto
     pinMode(echoPin, INPUT);
     pinMode(irRight, INPUT);
 }
-
-bool MotorController::isObstacleDetected() {
+float MotorController::getDistance() {
     digitalWrite(trigPin, LOW);
     delayMicroseconds(2);
     digitalWrite(trigPin, HIGH);
@@ -35,8 +34,20 @@ bool MotorController::isObstacleDetected() {
 
     long duration = pulseIn(echoPin, HIGH);
     float distance = duration * 0.034 / 2; // Convert to cm
+    return distance;
+}
 
-    return distance < OBSTACLE_THRESHOLD;
+bool MotorController::isObstacleDetected() {
+    float distance = getDistance();
+    Serial.print("Distance: ");
+    Serial.println(distance);
+    if (distance < OBSTACLE_THRESHOLD) {
+        Serial.println("Obstacle detected!");
+        return true;
+    } else {
+        Serial.println("No obstacle detected.");
+        return false;
+    }
 }
 
 void MotorController::moveForward(int baseSpeed) {
@@ -211,7 +222,10 @@ void MotorController::moveToRoom(String roomNumber) {
 
     if (roomNumber == "room1") {
         Serial.println("Navigating to Room 1"); 
-        moveForward(speed);
+        while (isRightDetected() && !isObstacleDetected() && !fireSystem->isFireDetected()) {
+            moveForward(speed);
+            delay(20); // gives time for yaw to be updated
+        }
 
         if (!isRightDetected() && !isObstacleDetected()) {
             Serial.println("Room 1 detected, turning right");
@@ -238,10 +252,15 @@ void MotorController::moveToRoom(String roomNumber) {
         }
     } else if(roomNumber == "room2"){
         Serial.println("Navigating to Room 2"); 
-        moveForward(speed);
+        while (!isObstacleDetected()) {
+            Serial.print("Checking for obstacles...");
+            Serial.println(isObstacleDetected());
+            moveForward(speed);
+            delay(50); // gives time for yaw to be updated
+        }
 
         if (!isRightDetected() && isObstacleDetected()) {
-            Serial.println("Room 1 detected, turning right");
+            Serial.println("Room 2 detected, turning right");
             delay(100);
             stopMoving();
             delay(2000); // Wait for 2 seconds
@@ -259,13 +278,6 @@ void MotorController::moveToRoom(String roomNumber) {
             } else if (isObstacleDetected()) {
                 Serial.println("Obstacle detected while moving to Room 1. Stopping.");
             }
-        } else if (isObstacleDetected()) {
-            Serial.println("Obstacle detected, stopping");
-            stopMotors();
         }
     } 
-    // else{
-    //     Serial.println("No fire detected");
-    //     // stopMotors();
-    // }
 }

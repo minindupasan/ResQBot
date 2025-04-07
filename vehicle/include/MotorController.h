@@ -33,6 +33,7 @@ public:
     void stopMoving();
     void stopMotors();
     int isRightDetected();
+    float getDistance();
     bool isObstacleDetected();
     void moveToRoom(String roomNumber);
 

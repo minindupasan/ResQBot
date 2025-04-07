@@ -25,7 +25,6 @@ void setup() {
   }                                             
 
 void loop() {
-    
     roomNumber = wifi.receiveRoomNumber();  
     motor.moveToRoom(roomNumber);
     delay(50); 
