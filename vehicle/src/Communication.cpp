@@ -13,9 +13,9 @@ void Communication::initWifi() {
     String connectCmd = "AT+CWJAP=\"" SECRET_SSID "\",\"" SECRET_PASS "\"";
     sendAT(connectCmd, 10000);  // Connect to Wi-Fi
 
-    // Connect to ESP32 TCP Server at IP 192.168.8.139 port 80
+    // Connect to ESP32 TCP Server at IP 192.168.8.200 port 80
     while (true) {
-        bool connected = sendAT("AT+CIPSTART=\"TCP\",\"192.168.8.139\",80", 5000);
+        bool connected = sendAT("AT+CIPSTART=\"TCP\",\"192.168.8.200\",80", 5000);
         if (connected) {
             digitalWrite(53, HIGH); // Turn off LED if not connected
             Serial.println("Connected to ESP32 TCP server.");

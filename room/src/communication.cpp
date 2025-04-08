@@ -6,8 +6,19 @@ WiFiClient client;
 
 const int LED_PIN = 2;  // Built-in LED pin (commonly GPIO2)
 
+// Define static IP settings
+IPAddress local_IP(192, 168, 8, 200);    // Choose a free IP on your network
+IPAddress gateway(192, 168, 8, 1);       // Usually your router IP
+IPAddress subnet(255, 255, 255, 0);
+IPAddress dns(8, 8, 8, 8);               // Optional: DNS server
+
 void initWifi() {
   Serial.println("Initializing WiFi...");
+
+  // Apply static IP configuration
+  if (!WiFi.config(local_IP, gateway, subnet, dns)) {
+    Serial.println("⚠️ Failed to configure static IP");
+  }
 
   WiFi.begin(SECRET_SSID, SECRET_OPTIONAL_PASS);
 
@@ -19,16 +30,16 @@ void initWifi() {
   }
 
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("WiFi connection failed!");
+    Serial.println("❌ WiFi connection failed!");
     return;
   }
 
-  Serial.println("Connected to WiFi");
-  Serial.print("ESP32 IP Address: ");
+  Serial.println("✅ Connected to WiFi");
+  Serial.print("📡 ESP32 IP Address: ");
   Serial.println(WiFi.localIP());
 
   server.begin();
-  Serial.println("Server started on port 80");
+  Serial.println("🖧 Server started on port 80");
 
   pinMode(LED_PIN, OUTPUT);  // Setup LED pin
   digitalWrite(LED_PIN, LOW); // Turn off initially
@@ -39,12 +50,14 @@ void sendRoomNumber(String roomNumber) {
   if (!client || !client.connected()) {
     Serial.println("Waiting for client to connect...");
     client = server.available();
+    if (client) {
+      Serial.println("✅ Client connected!");
+    }
   }
 
   if (client && client.connected()) {
     client.println(roomNumber);
     Serial.println("Room number sent to Arduino: " + roomNumber);
-    
     digitalWrite(LED_PIN, HIGH);  // Turn on LED
   } else {
     Serial.println("Client not connected yet.");
