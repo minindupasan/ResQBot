@@ -15,7 +15,7 @@ void Communication::initWifi() {
 
     // Connect to ESP32 TCP Server at IP 192.168.8.200 port 80
     while (true) {
-        bool connected = sendAT("AT+CIPSTART=\"TCP\",\"192.168.8.200\",80", 5000);
+        bool connected = sendAT("AT+CIPSTART=\"TCP\",\"192.168.1.200\",80", 5000);
         if (connected) {
             digitalWrite(53, HIGH); // Turn off LED if not connected
             Serial.println("Connected to ESP32 TCP server.");

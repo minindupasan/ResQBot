@@ -7,8 +7,8 @@ WiFiClient client;
 const int LED_PIN = 2;  // Built-in LED pin (commonly GPIO2)
 
 // Define static IP settings
-IPAddress local_IP(192, 168, 8, 200);    // Choose a free IP on your network
-IPAddress gateway(192, 168, 8, 1);       // Usually your router IP
+IPAddress local_IP(192, 168, 1, 200);    // Choose a free IP on your network
+IPAddress gateway(192, 168, 1, 1);       // Usually your router IP
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(8, 8, 8, 8);               // Optional: DNS server
 
