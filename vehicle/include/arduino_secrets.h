@@ -1,2 +1,2 @@
-#define SECRET_SSID "Dialog 4G 181"
-#define SECRET_PASS "wifi3515"
+#define SECRET_SSID "Dineth Hasaranga"
+#define SECRET_PASS "Azsd@086"
